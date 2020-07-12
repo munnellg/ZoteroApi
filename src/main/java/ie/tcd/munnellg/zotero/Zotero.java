@@ -504,22 +504,4 @@ public class Zotero
 	{
 		return this.miscRequestHandler.getUserGroups(userId);
 	}
-
-	public static void main(String[] args) throws JsonProcessingException, MalformedURLException, IOException, ProtocolException
-	{
-		Zotero zotero = new Zotero(TEST_API_KEY);
-
-		zotero.setDefaultMode(TEST_USER_ID, Mode.USER);
-		// zotero.setDefaultMode(TEST_GROUP_ID, Mode.GROUP);
-
-		zotero.getAllSearches();
-
-		// List<TagsResponse> tags = zotero.getAllTags();
-
-		// for (TagsResponse tag : tags)
-		// {
-		// 	System.out.println(tag.getTag());
-		// 	// System.out.println(String.format("%s | %14s | %14s | %s", item.getData().getKey(), item.getData().getParentItem(), item.getData().getItemType(), item.getData().getTitle()));
-		// }
-	}
 }
