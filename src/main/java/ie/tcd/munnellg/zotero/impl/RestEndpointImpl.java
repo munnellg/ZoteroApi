@@ -1,15 +1,17 @@
 package ie.tcd.munnellg.zotero.impl;
 
+import java.util.Arrays;
+
 import java.io.IOException;
 
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import java.util.List;
-
+import ie.tcd.munnellg.zotero.util.ZoteroList;
 import ie.tcd.munnellg.zotero.util.ZoteroRequest;
 
 import ie.tcd.munnellg.zotero.interfaces.RestEndpoint;
+import ie.tcd.munnellg.zotero.interfaces.RequestParams;
 import ie.tcd.munnellg.zotero.interfaces.PrefixAssembler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,21 +50,25 @@ public class RestEndpointImpl implements RestEndpoint
 		this.apiRoot = apiRoot;
 	}
 
-	public <T> List<T> getList(String id, String path, PrefixAssembler prefixAssembler, TypeReference<List<T>> valueTypeRef) throws JsonProcessingException, IOException
+	public <T> ZoteroList<T> getList(String id, String path, PrefixAssembler prefixAssembler, TypeReference<ZoteroList<T>> valueTypeRef, RequestParams... params) throws JsonProcessingException, IOException
 	{
-		ZoteroRequest request = createRequest(id, path, prefixAssembler);
+		ZoteroRequest request = createRequest(id, path, prefixAssembler, params);
 
-		return new ObjectMapper().readValue(request.execute(), valueTypeRef);
+		ZoteroList response = new ObjectMapper().readValue(request.execute(), valueTypeRef);
+
+		response.setTotalResults(request.getTotalResults());
+
+		return response;
 	}
 
-	public <T> T getOne(String id, String path, PrefixAssembler prefixAssembler, Class<T> clazz) throws JsonProcessingException, IOException
+	public <T> T getOne(String id, String path, PrefixAssembler prefixAssembler, Class<T> clazz, RequestParams... params) throws JsonProcessingException, IOException
 	{
-		ZoteroRequest request = createRequest(id, path, prefixAssembler);
+		ZoteroRequest request = createRequest(id, path, prefixAssembler, params);
 		
 		return new ObjectMapper().readValue(request.execute(), clazz);
 	}
 
-	private ZoteroRequest createRequest(String id, String path, PrefixAssembler prefixAssembler)
+	private ZoteroRequest createRequest(String id, String path, PrefixAssembler prefixAssembler, RequestParams... params)
 	{
 		return ZoteroRequest.builder()
 						.setPrefixAssembler(prefixAssembler)
@@ -70,6 +76,7 @@ public class RestEndpointImpl implements RestEndpoint
 						.setApiRoot(this.apiRoot)
 						.setOwnerId(id)
 						.setPath(path)
+						.setRequestParams(Arrays.asList(params))
 						.build();
 	}
 

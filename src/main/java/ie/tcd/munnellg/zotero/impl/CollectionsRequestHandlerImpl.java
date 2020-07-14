@@ -2,14 +2,14 @@ package ie.tcd.munnellg.zotero.impl;
 
 import java.io.IOException;
 
-import java.net.MalformedURLException;
-
-import java.util.List;
+import ie.tcd.munnellg.zotero.util.ZoteroList;
 
 import ie.tcd.munnellg.zotero.interfaces.RestEndpoint;
-import ie.tcd.munnellg.zotero.model.CollectionsResponse;
+import ie.tcd.munnellg.zotero.interfaces.RequestParams;
 import ie.tcd.munnellg.zotero.interfaces.PrefixAssembler;
 import ie.tcd.munnellg.zotero.interfaces.CollectionsRequestHandler;
+
+import ie.tcd.munnellg.zotero.model.CollectionsResponse;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,15 +37,25 @@ public class CollectionsRequestHandlerImpl implements CollectionsRequestHandler
 	}
 
 	// Collections in the library
-	public List<CollectionsResponse> getAllCollections(String id) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getAllCollections(String id) throws JsonProcessingException, IOException
 	{
-		return this.restEndpoint.getList(id, URL_COLLECTIONS_ALL, this.prefixAssembler, new TypeReference<List<CollectionsResponse>>(){});
+		return this.restEndpoint.getList(id, URL_COLLECTIONS_ALL, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){});
+	}
+
+	public ZoteroList<CollectionsResponse> getAllCollections(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.restEndpoint.getList(id, URL_COLLECTIONS_ALL, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){}, params);
 	}
 	
 	// Top-level collections in the library
-	public List<CollectionsResponse> getTopLevelCollections(String id) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getTopLevelCollections(String id) throws JsonProcessingException, IOException
 	{
-		return this.restEndpoint.getList(id, URL_COLLECTIONS_TOP_LEVEL, this.prefixAssembler, new TypeReference<List<CollectionsResponse>>(){});
+		return this.restEndpoint.getList(id, URL_COLLECTIONS_TOP_LEVEL, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){});
+	}
+
+	public ZoteroList<CollectionsResponse> getTopLevelCollections(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.restEndpoint.getList(id, URL_COLLECTIONS_TOP_LEVEL, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){}, params);
 	}
 
 	// A specific collection in the library
@@ -57,11 +67,18 @@ public class CollectionsRequestHandlerImpl implements CollectionsRequestHandler
 	}
 
 	// Subcollections within a specific collection in the library
-	public List<CollectionsResponse> getSubCollection(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getSubCollection(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		final String path = String.format(URL_COLLECTIONS_SUB_COLLECTIONS, collectionId);
 
-		return this.restEndpoint.getList(id, path, this.prefixAssembler, new TypeReference<List<CollectionsResponse>>(){});
+		return this.restEndpoint.getList(id, path, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){});
+	}
+
+	public ZoteroList<CollectionsResponse> getSubCollection(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		final String path = String.format(URL_COLLECTIONS_SUB_COLLECTIONS, collectionId);
+
+		return this.restEndpoint.getList(id, path, this.prefixAssembler, new TypeReference<ZoteroList<CollectionsResponse>>(){}, params);
 	}
 
 	public static CollectionsRequestHandlerImplBuilder builder()

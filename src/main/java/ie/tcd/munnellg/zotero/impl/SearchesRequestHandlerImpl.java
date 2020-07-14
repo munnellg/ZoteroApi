@@ -2,7 +2,7 @@ package ie.tcd.munnellg.zotero.impl;
 
 import java.io.IOException;
 
-import java.util.List;
+import ie.tcd.munnellg.zotero.util.ZoteroList;
 
 import ie.tcd.munnellg.zotero.model.SearchesResponse;
 
@@ -34,9 +34,9 @@ public class SearchesRequestHandlerImpl implements SearchesRequestHandler
 	}
 
 	// All saved searches in the library
-	public List<SearchesResponse> getAllSearches(String id) throws JsonProcessingException, IOException
+	public ZoteroList<SearchesResponse> getAllSearches(String id) throws JsonProcessingException, IOException
 	{
-		return this.restEndpoint.getList(id, URL_SEARCHES_ALL, this.prefixAssembler, new TypeReference<List<SearchesResponse>>(){});
+		return this.restEndpoint.getList(id, URL_SEARCHES_ALL, this.prefixAssembler, new TypeReference<ZoteroList<SearchesResponse>>(){});
 	}
 	
 	// A specific saved search in the library

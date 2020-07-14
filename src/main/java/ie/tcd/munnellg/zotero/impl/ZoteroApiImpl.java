@@ -2,7 +2,7 @@ package ie.tcd.munnellg.zotero.impl;
 
 import java.io.IOException;
 
-import java.util.List;
+import ie.tcd.munnellg.zotero.util.ZoteroList;
 
 import ie.tcd.munnellg.zotero.model.TagsResponse;
 import ie.tcd.munnellg.zotero.model.ItemsResponse;
@@ -12,6 +12,7 @@ import ie.tcd.munnellg.zotero.model.SearchesResponse;
 import ie.tcd.munnellg.zotero.model.CollectionsResponse;
 
 import ie.tcd.munnellg.zotero.interfaces.ZoteroApi;
+import ie.tcd.munnellg.zotero.interfaces.RequestParams;
 import ie.tcd.munnellg.zotero.interfaces.TagsRequestHandler;
 import ie.tcd.munnellg.zotero.interfaces.MiscRequestHandler;
 import ie.tcd.munnellg.zotero.interfaces.ItemsRequestHandler;
@@ -46,56 +47,109 @@ public class ZoteroApiImpl implements ZoteroApi
 		this.miscRequestHandler        = builder.miscRequestHandler;
 	}
 
-	public List<ItemsResponse> getAllItems(String id) throws JsonProcessingException, IOException
+	/* ======================================================================
+	 * Items Requests
+	 * ====================================================================== */
+
+	public ZoteroList<ItemsResponse> getAllItems(String id) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getAllItems(id);
 	}
 
-	public List<ItemsResponse> getTopLevelItems(String id) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getAllItems(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getAllItems(id, params);
+	}
+
+	public ZoteroList<ItemsResponse> getTopLevelItems(String id) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getTopLevelItems(id);
 	}
 
-	public List<ItemsResponse> getTrashedItems(String id) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getTopLevelItems(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getTopLevelItems(id, params);
+	}
+
+	public ZoteroList<ItemsResponse> getTrashedItems(String id) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getTrashedItems(id);
 	}
 	
+	public ZoteroList<ItemsResponse> getTrashedItems(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getTrashedItems(id, params);
+	}
+
 	public ItemsResponse getItem(String id, String itemId) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getItem(id, itemId);
 	}
 
-	public List<ItemsResponse> getChildren(String id, String itemId) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getChildren(String id, String itemId) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getChildren(id, itemId);
 	}
 
-	public List<ItemsResponse> getMyPublications(String id) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getChildren(String id, String itemId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getChildren(id, itemId, params);
+	}
+
+	public ZoteroList<ItemsResponse> getMyPublications(String id) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getMyPublications(id);
 	}
 
-	public List<ItemsResponse> getCollectionItems(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getMyPublications(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getMyPublications(id, params);
+	}
+
+	public ZoteroList<ItemsResponse> getCollectionItems(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getCollectionItems(id, collectionId);
 	}
 
-	public List<ItemsResponse> getTopCollectionItems(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<ItemsResponse> getCollectionItems(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getCollectionItems(id, collectionId, params);
+	}
+
+	public ZoteroList<ItemsResponse> getTopCollectionItems(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.itemsRequestHandler.getTopCollectionItems(id, collectionId);
 	}
 
+	public ZoteroList<ItemsResponse> getTopCollectionItems(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.itemsRequestHandler.getTopCollectionItems(id, collectionId, params);
+	}
+
+	/* ======================================================================
+	 * Collections Requests
+	 * ====================================================================== */
+
 	// Collections in the library
-	public List<CollectionsResponse> getAllCollections(String id) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getAllCollections(String id) throws JsonProcessingException, IOException
 	{
 		return this.collectionsRequestHandler.getAllCollections(id);
 	}
+
+	public ZoteroList<CollectionsResponse> getAllCollections(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.collectionsRequestHandler.getAllCollections(id, params);
+	}
 	
 	// Top-level collections in the library
-	public List<CollectionsResponse> getTopLevelCollections(String id) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getTopLevelCollections(String id) throws JsonProcessingException, IOException
 	{
 		return this.collectionsRequestHandler.getTopLevelCollections(id);
+	}
+
+	public ZoteroList<CollectionsResponse> getTopLevelCollections(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.collectionsRequestHandler.getTopLevelCollections(id, params);
 	}
 
 	// A specific collection in the library
@@ -105,67 +159,133 @@ public class ZoteroApiImpl implements ZoteroApi
 	}
 
 	// Subcollections within a specific collection in the library
-	public List<CollectionsResponse> getSubCollection(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<CollectionsResponse> getSubCollection(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.collectionsRequestHandler.getSubCollection(id, collectionId);
 	}
 
+	public ZoteroList<CollectionsResponse> getSubCollection(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.collectionsRequestHandler.getSubCollection(id, collectionId, params);
+	}
+
+	/* ======================================================================
+	 * Tags Requests
+	 * ====================================================================== */
+
 	// All tags in the library
-	public List<TagsResponse> getAllTags(String id) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getAllTags(String id) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getAllTags(id);
 	}
+
+	public ZoteroList<TagsResponse> getAllTags(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllTags(id, params);
+	}
 	
 	// Tags of all types matching a specific name
-	public List<TagsResponse> getAllTags(String id, String urlEncodedTag) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getAllTags(String id, String urlEncodedTag) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getAllTags(id, urlEncodedTag);
 	}
 
+	public ZoteroList<TagsResponse> getAllTags(String id, String urlEncodedTag, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllTags(id, urlEncodedTag, params);
+	}
+
 	// Tags associated with a specific item
-	public List<TagsResponse> getAllItemTags(String id, String itemId) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getAllItemTags(String id, String itemId) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getAllItemTags(id, itemId);
 	}
+
+	public ZoteroList<TagsResponse> getAllItemTags(String id, String itemId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllItemTags(id, itemId, params);
+	}
 	
 	// Tags within a specific collection in the library
-	public List<TagsResponse> getAllCollectionTags(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getAllCollectionTags(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getAllCollectionTags(id, collectionId);
 	}
 
+	public ZoteroList<TagsResponse> getAllCollectionTags(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllCollectionTags(id, collectionId, params);
+	}
+
 	// All tags in the library, with the ability to filter based on the items
-	// public List<ItemsResponse> getAllTags(String id, TagsQueryParams) throws JsonProcessingException, IOException;
+	public ZoteroList<TagsResponse> getAllTagsFilterByItems(String id) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllTagsFilterByItems(id);
+	}
+
+	public ZoteroList<TagsResponse> getAllTagsFilterByItems(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getAllTagsFilterByItems(id, params);
+	}
 
 	// Tags assigned to top-level items
-	public List<TagsResponse> getTopLevelTags(String id) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getTopLevelTags(String id) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getTopLevelTags(id);
 	}
 
+	public ZoteroList<TagsResponse> getTopLevelTags(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getTopLevelTags(id, params);
+	}
+
 	// Tags assigned to items in the trash
-	public List<TagsResponse> getTrashTags(String id) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getTrashTags(String id) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getTrashTags(id);
 	}
 
+	public ZoteroList<TagsResponse> getTrashTags(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getTrashTags(id, params);
+	}
+
 	// Tags assigned to items in a given collection
-	public List<TagsResponse> getCollectionItemTags(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getCollectionItemTags(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getCollectionItemTags(id, collectionId);
 	}
 	
+	public ZoteroList<TagsResponse> getCollectionItemTags(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getCollectionItemTags(id, collectionId, params);
+	}
+
 	// Tags assigned to top-level items in a given collection
-	public List<TagsResponse> getTopLevelCollectionItemTags(String id, String collectionId) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getTopLevelCollectionItemTags(String id, String collectionId) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getTopLevelCollectionItemTags(id, collectionId);
 	}
+
+	public ZoteroList<TagsResponse> getTopLevelCollectionItemTags(String id, String collectionId, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getTopLevelCollectionItemTags(id, collectionId, params);
+	}
 	
 	// Tags assigned to items in My Publications
-	public List<TagsResponse> getMyPublicationTags(String id) throws JsonProcessingException, IOException
+	public ZoteroList<TagsResponse> getMyPublicationTags(String id) throws JsonProcessingException, IOException
 	{
 		return this.tagsRequestHandler.getMyPublicationTags(id);
 	}
+
+	public ZoteroList<TagsResponse> getMyPublicationTags(String id, RequestParams params) throws JsonProcessingException, IOException
+	{
+		return this.tagsRequestHandler.getMyPublicationTags(id, params);
+	}
+
+	/* ======================================================================
+	 * Misc Requests
+	 * ====================================================================== */
 
 	// All items in the library, excluding trashed items
 	public KeyPermissions getKeyPermissions(String key) throws JsonProcessingException, IOException
@@ -174,13 +294,17 @@ public class ZoteroApiImpl implements ZoteroApi
 	}
 	
 	// Top-level items in the library, excluding trashed items
-	public List<GroupResponse> getUserGroups(String userId) throws JsonProcessingException, IOException
+	public ZoteroList<GroupResponse> getUserGroups(String userId) throws JsonProcessingException, IOException
 	{
 		return this.miscRequestHandler.getUserGroups(userId);
 	}
 
+	/* ======================================================================
+	 * Searches Requests
+	 * ====================================================================== */
+
 	// All saved searches in the library
-	public List<SearchesResponse> getAllSearches(String id) throws JsonProcessingException, IOException
+	public ZoteroList<SearchesResponse> getAllSearches(String id) throws JsonProcessingException, IOException
 	{
 		return this.searchesRequestHandler.getAllSearches(id);
 	}

@@ -2,7 +2,7 @@ package ie.tcd.munnellg.zotero.impl;
 
 import java.io.IOException;
 
-import java.util.List;
+import ie.tcd.munnellg.zotero.util.ZoteroList;
 
 import ie.tcd.munnellg.zotero.model.GroupResponse;
 import ie.tcd.munnellg.zotero.model.KeyPermissions;
@@ -45,11 +45,11 @@ public class MiscRequestHandlerImpl implements MiscRequestHandler
 	}
 	
 	// Top-level items in the library, excluding trashed items
-	public List<GroupResponse> getUserGroups(String userId) throws JsonProcessingException, IOException
+	public ZoteroList<GroupResponse> getUserGroups(String userId) throws JsonProcessingException, IOException
 	{
 		final String path = String.format(URL_USER_GROUPS, userId);
 
-		return this.restEndpoint.getList(null, path, this.prefixAssembler, new TypeReference<List<GroupResponse>>(){});
+		return this.restEndpoint.getList(null, path, this.prefixAssembler, new TypeReference<ZoteroList<GroupResponse>>(){});
 	}
 
 	public static MiscRequestHandlerImplBuilder builder()

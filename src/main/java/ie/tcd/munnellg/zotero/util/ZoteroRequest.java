@@ -6,6 +6,7 @@ import java.net.ProtocolException;
 import java.net.MalformedURLException;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import java.net.HttpURLConnection;
 
@@ -16,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import ie.tcd.munnellg.zotero.enums.Mode;
+import ie.tcd.munnellg.zotero.interfaces.RequestParams;
 import ie.tcd.munnellg.zotero.interfaces.PrefixAssembler;
 import ie.tcd.munnellg.zotero.factory.PrefixAssemblerFactory;
 
@@ -34,7 +36,15 @@ public class ZoteroRequest
 
 	private String requestMethod;
 
+	private Integer retryAfter;
+
+	private Integer backoff;
+
+	private Integer totalResults;
+
 	private PrefixAssembler prefixAssembler;
+
+	private List<RequestParams> requestParams;
 
 	public ZoteroRequest()
 	{
@@ -49,6 +59,7 @@ public class ZoteroRequest
 		this.path            = builder.path;
 		this.requestMethod   = builder.requestMethod;
 		this.prefixAssembler = builder.prefixAssembler;
+		this.requestParams   = builder.requestParams;
 	}
 
 	public void setPrefixAssembler(PrefixAssembler prefixAssembler)
@@ -59,6 +70,43 @@ public class ZoteroRequest
 	public void setPrefixAssembler(Mode mode)
 	{
 		this.setPrefixAssembler(PrefixAssemblerFactory.assemble(mode));
+	}
+
+	public Integer getRetryAfter()
+	{
+		return this.retryAfter;
+	}
+
+	public void setRetryAfter(Integer retryAfter)
+	{
+		this.retryAfter = retryAfter;
+	}
+
+	public Integer getBackoff()
+	{
+		return this.backoff;
+	}
+
+	public void setBackoff(Integer backoff)
+	{
+		this.backoff = backoff;
+	}
+
+	public Integer getTotalResults()
+	{
+		return this.totalResults;
+	}
+
+	public void setTotalResults(Integer totalResults)
+	{
+		this.totalResults = totalResults;
+	}
+
+	private Integer getHeaderInt(HttpURLConnection con, String header)
+	{
+		String headerStr = con.getHeaderField(header);
+
+		return (headerStr == null)? null : Integer.valueOf(headerStr);
 	}
 
 	private String read(HttpURLConnection con) throws IOException
@@ -76,14 +124,57 @@ public class ZoteroRequest
 
 		in.close();
 
+		switch (con.getResponseCode())
+		{
+		case 429:                               /* too many requests */
+		case HttpURLConnection.HTTP_UNAVAILABLE:
+			this.retryAfter   = getHeaderInt(con, "Retry-After");
+			break;
+
+		case HttpURLConnection.HTTP_OK:
+		default:
+			this.backoff      = getHeaderInt(con, "Backoff");
+			this.totalResults = getHeaderInt(con, "Total-Results");
+		}
+
 		return builder.toString();
+	}
+
+	private String buildQueryString()
+	{
+		String queryString = "?";
+
+		for (RequestParams param : this.requestParams)
+		{
+			List<String> args = param.paramsToQueryString();
+			
+			System.out.println(args.size());
+
+			String argsStr = String.join("&", args);
+
+			if (queryString.length() > 1 && argsStr.length() > 1)
+			{
+				queryString += "&";
+			}
+
+			if (argsStr.length() > 1)
+			{
+				queryString += argsStr;
+			}
+		}
+
+		return (queryString.length() > 1) ? queryString : "";
 	}
 
 	public String execute() throws IOException, MalformedURLException, ProtocolException
 	{
 		final String prefix = this.prefixAssembler.assemble(this.ownerId);
 		
-		final URL url = new URL(this.apiRoot + prefix + this.path);
+		final String queryString = buildQueryString();
+
+		final URL url = new URL(this.apiRoot + prefix + this.path + queryString);
+
+		System.out.println(url);
 
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		
@@ -117,13 +208,16 @@ public class ZoteroRequest
 
 		private PrefixAssembler prefixAssembler;
 
+		private List<RequestParams> requestParams;
+
 		public ZoteroRequestBuilder()
 		{
 			this.apiRoot         = DEFAULT_API_ROOT;
 			this.apiKey          = null;
 			this.ownerId         = null;
-			this.requestMethod   = "GET";
+			this.requestMethod   = DEFAULT_REQUEST_METHOD;
 			this.prefixAssembler = PrefixAssemblerFactory.assemble(Mode.NONE);
+			this.requestParams   = new ArrayList<RequestParams>();
 		}
 
 		public ZoteroRequestBuilder setApiRoot(String apiRoot)
@@ -164,6 +258,12 @@ public class ZoteroRequest
 		public ZoteroRequestBuilder setRequestMethod(String requestMethod)
 		{
 			this.requestMethod = requestMethod;
+			return this;
+		}
+
+		public ZoteroRequestBuilder setRequestParams(List<RequestParams> requestParams)
+		{
+			this.requestParams = requestParams;
 			return this;
 		}
 
