@@ -148,8 +148,6 @@ public class ZoteroRequest
 		{
 			List<String> args = param.paramsToQueryString();
 			
-			System.out.println(args.size());
-
 			String argsStr = String.join("&", args);
 
 			if (queryString.length() > 1 && argsStr.length() > 1)
@@ -173,8 +171,6 @@ public class ZoteroRequest
 		final String queryString = buildQueryString();
 
 		final URL url = new URL(this.apiRoot + prefix + this.path + queryString);
-
-		System.out.println(url);
 
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		

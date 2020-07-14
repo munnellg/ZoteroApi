@@ -6,7 +6,7 @@
 
   <groupId>ie.tcd.munnellg.zotero</groupId>
   <artifactId>zotero-api</artifactId>
-  <version>0.1</version>
+  <version>0.1.2-alpha</version>
   <packaging>jar</packaging>
 
   <name>Zotero Api</name>
