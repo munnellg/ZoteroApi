@@ -22,18 +22,18 @@ public class KeyPermissions
 	@JsonProperty("access")
 	private Access access;
 
-    public KeyPermissions()
-    {
-    	this(KeyPermissions.builder());
-    }
+	public KeyPermissions()
+	{
+		this(KeyPermissions.builder());
+	}
 
-    public KeyPermissions(KeyPermissionsBuilder builder)
-    {
-    	this.key      = builder.key;
+	public KeyPermissions(KeyPermissionsBuilder builder)
+	{
+		this.key      = builder.key;
 		this.userId   = builder.userId;
 		this.username = builder.username;
 		this.access   = builder.access;
-    }
+	}
 
 	public String getKey()
 	{
@@ -75,14 +75,14 @@ public class KeyPermissions
 		this.access = access;
 	}
 
-    public static KeyPermissionsBuilder builder()
-    {
-    	return new KeyPermissionsBuilder();
-    }
+	public static KeyPermissionsBuilder builder()
+	{
+		return new KeyPermissionsBuilder();
+	}
 
-    public static class KeyPermissionsBuilder
-    {
-    	private String key;
+	public static class KeyPermissionsBuilder
+	{
+		private String key;
 		private String userId;
 		private String username;
 		private Access access;
@@ -123,5 +123,5 @@ public class KeyPermissions
 		{
 			return new KeyPermissions(this);
 		}
-    }
+	}
 }

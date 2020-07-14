@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AbstractLinkable
 {
 	@JsonProperty
-    protected Map<String, Link> links;
+	protected Map<String, Link> links;
 
-    public Map<String, Link> getLinks()
+	public Map<String, Link> getLinks()
 	{
 		return links;
 	}

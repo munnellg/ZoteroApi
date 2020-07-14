@@ -18,20 +18,20 @@ public class GroupResponse extends AbstractLinkable
 
 	private Group data;
 
-    public GroupResponse()
-    {
-    	this(GroupResponse.builder());
-    }
+	public GroupResponse()
+	{
+		this(GroupResponse.builder());
+	}
 
-    public GroupResponse(GroupResponseBuilder builder)
-    {
-    	this.id      = builder.id;
+	public GroupResponse(GroupResponseBuilder builder)
+	{
+		this.id      = builder.id;
 		this.version = builder.version;
 		this.meta    = builder.meta;
 		this.data    = builder.data;
-    }
+	}
 
-    public Integer getId()
+	public Integer getId()
 	{
 		return this.id;
 	}
@@ -71,14 +71,14 @@ public class GroupResponse extends AbstractLinkable
 		this.data = data;
 	}
 
-    public static GroupResponseBuilder builder()
-    {
-    	return new GroupResponseBuilder();
-    }
+	public static GroupResponseBuilder builder()
+	{
+		return new GroupResponseBuilder();
+	}
 
-    public static class GroupResponseBuilder
-    {
-    	private Integer id;
+	public static class GroupResponseBuilder
+	{
+		private Integer id;
 		private Integer version;
 		private Meta meta;
 		private Group data;
@@ -119,5 +119,5 @@ public class GroupResponse extends AbstractLinkable
 		{
 			return new GroupResponse(this);
 		}
-    }
+	}
 }

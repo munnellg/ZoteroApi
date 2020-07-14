@@ -33,16 +33,16 @@ public class Group extends AbstractLinkable
 
 	private List<Integer> admins;
 
-    public Group()
-    {
-    	this(Group.builder());
-    }
+	public Group()
+	{
+		this(Group.builder());
+	}
 
-    public Group(GroupBuilder builder)
-    {
-    }
+	public Group(GroupBuilder builder)
+	{
+	}
 
-    public Integer getId()
+	public Integer getId()
 	{
 		return this.id;
 	}
@@ -153,14 +153,14 @@ public class Group extends AbstractLinkable
 	}
 
 
-    public static GroupBuilder builder()
-    {
-    	return new GroupBuilder();
-    }
+	public static GroupBuilder builder()
+	{
+		return new GroupBuilder();
+	}
 
-    public static class GroupBuilder
-    {
-    	private Integer id;
+	public static class GroupBuilder
+	{
+		private Integer id;
 		private Integer version;
 		private String name;
 		private Integer owner;
@@ -257,5 +257,5 @@ public class Group extends AbstractLinkable
 		{
 			return new Group(this);
 		}
-    }
+	}
 }

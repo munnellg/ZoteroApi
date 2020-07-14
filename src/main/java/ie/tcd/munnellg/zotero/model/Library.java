@@ -10,23 +10,23 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Library extends AbstractLinkable
 {
-    private String id;
+	private String id;
 	
 	private String type;
 
-    private String name;
+	private String name;
 
-    public Library()
-    {
-    	this(Library.builder());
-    }
+	public Library()
+	{
+		this(Library.builder());
+	}
 
-    public Library(LibraryBuilder builder)
-    {
-    	this.id   = builder.id;
+	public Library(LibraryBuilder builder)
+	{
+		this.id   = builder.id;
 		this.type = builder.type;
 		this.name = builder.name;
-    }
+	}
 
 	public String getId()
 	{
@@ -58,14 +58,14 @@ public class Library extends AbstractLinkable
 		this.name = name;
 	}
 
-    public static LibraryBuilder builder()
-    {
-    	return new LibraryBuilder();
-    }
+	public static LibraryBuilder builder()
+	{
+		return new LibraryBuilder();
+	}
 
-    public static class LibraryBuilder
-    {
-    	private String id;
+	public static class LibraryBuilder
+	{
+		private String id;
 		private String type;
 		private String name;
 
@@ -98,5 +98,5 @@ public class Library extends AbstractLinkable
 		{
 			return new Library(this);
 		}
-    }
+	}
 }

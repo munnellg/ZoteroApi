@@ -7,26 +7,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User extends AbstractLinkable
 {
 	@JsonProperty
-    private Integer id;
+	private Integer id;
 
-    @JsonProperty
-    private String username;
+	@JsonProperty
+	private String username;
 
-    @JsonProperty
-    private String name;
+	@JsonProperty
+	private String name;
 
-    public User()
-    {
-    	this(User.builder());
-    }
+	public User()
+	{
+		this(User.builder());
+	}
 
-    private User(UserBuilder builder)
-    {
-    	this.username = builder.username;
-    	this.name     = builder.name;
-    }
+	private User(UserBuilder builder)
+	{
+		this.username = builder.username;
+		this.name     = builder.name;
+	}
 
-    public Integer getId()
+	public Integer getId()
 	{
 		return this.id;
 	}
