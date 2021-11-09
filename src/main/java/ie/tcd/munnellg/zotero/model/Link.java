@@ -10,6 +10,18 @@ public class Link
 	@JsonProperty
 	private String type;
 
+	@JsonProperty
+	private String attachmentType;
+
+	@JsonProperty
+	private Integer attachmentSize;
+
+	@JsonProperty
+	private String title;
+
+	@JsonProperty
+	private Integer length;
+
 	public Link()
 	{
 		this(null, null);
@@ -39,5 +51,45 @@ public class Link
 	public void setType(String type)
 	{
 		this.type = type;
+	}
+
+	public String getAttachmentType()
+	{
+		return this.attachmentType;
+	}
+
+	public void setAttachmentType(String attachmentType)
+	{
+		this.attachmentType = attachmentType;
+	}
+
+	public Integer getAttachmentSize()
+	{
+		return this.attachmentSize;
+	}
+
+	public void setAttachmentSize(Integer attachmentSize)
+	{
+		this.attachmentSize = attachmentSize;
+	}
+
+	public String getTitle()
+	{
+		return this.title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	public Integer getLength()
+	{
+		return this.length;
+	}
+
+	public void setLength(Integer length)
+	{
+		this.length = length;
 	}
 }

@@ -16,6 +16,8 @@ public class Creator extends AbstractLinkable
 
 	private String lastName;
 
+	private String name;
+
 	public Creator()
 	{
 		this(Creator.builder());
@@ -26,6 +28,7 @@ public class Creator extends AbstractLinkable
 		this.creatorType = builder.creatorType;
 		this.firstName   = builder.firstName;
 		this.lastName    = builder.lastName;
+		this.name        = builder.name;
 	}
 
 	public String getCreatorType()
@@ -58,6 +61,16 @@ public class Creator extends AbstractLinkable
 		this.lastName = lastName;
 	}
 
+	public String getName()
+	{
+		return this.name = name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
 	public static CreatorBuilder builder()
 	{
 		return new CreatorBuilder();
@@ -68,12 +81,14 @@ public class Creator extends AbstractLinkable
 		private String creatorType;
 		private String firstName;
 		private String lastName;
+		private String name;		
 
 		public CreatorBuilder()
 		{
 			this.creatorType = null;
 			this.firstName   = null;
 			this.lastName    = null;
+			this.name        = null;
 		}
 
 		public CreatorBuilder setCreatorType(String creatorType)
@@ -91,6 +106,12 @@ public class Creator extends AbstractLinkable
 		public CreatorBuilder setLastName(String lastName)
 		{
 			this.lastName = lastName;
+			return this;
+		}
+
+		public CreatorBuilder setName(String name)
+		{
+			this.name = name;
 			return this;
 		}
 

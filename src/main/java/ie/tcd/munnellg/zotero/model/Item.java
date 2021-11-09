@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import ie.tcd.munnellg.zotero.util.MultiDateDeserializer;
 
 public class Item
 {
@@ -29,7 +31,7 @@ public class Item
 
 	private String title;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd'T'hh:mm:ss'Z'")
+	@JsonDeserialize(using = MultiDateDeserializer.class)
 	private Date accessDate;
 
 	private URL url;
@@ -50,18 +52,18 @@ public class Item
 
 	private Map<String, String> relations;
 
+	private List<Creator> creators;
+
 	//  "2020-06-09T10:51:21Z",
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd'T'hh:mm:ss'Z'")
+	@JsonDeserialize(using = MultiDateDeserializer.class)
 	private Date dateAdded;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd'T'hh:mm:ss'Z'")
+	@JsonDeserialize(using = MultiDateDeserializer.class)
 	private Date dateModified;
 
 	/* ======================================================================
 	 * Journal Fields
 	 * ====================================================================== */
-	private List<Creator> creators;
-
 	private String abstractNote;
 
 	private String publicationTitle;
@@ -116,6 +118,8 @@ public class Item
 	/* ======================================================================
 	 * Book Fields
 	 * ====================================================================== */
+
+	private String bookTitle;
 
 	private String seriesNumber;
 
@@ -179,6 +183,7 @@ public class Item
 		this.collections         = builder.collections;
 		this.websiteTitle        = builder.websiteTitle;
 		this.websiteType         = builder.websiteType;
+		this.bookTitle           = builder.bookTitle;
 		this.seriesNumber        = builder.seriesNumber;
 		this.numberOfVolumes     = builder.numberOfVolumes;
 		this.edition             = builder.edition;
@@ -608,6 +613,16 @@ public class Item
 		this.websiteType = websiteType;
 	}
 
+	public String getBookTitle()
+	{
+		return this.bookTitle;
+	}
+
+	public void setBookTitle(String bookTitle)
+	{
+		this.bookTitle = bookTitle;
+	}
+
 	public String getSeriesNumber()
 	{
 		return this.seriesNumber;
@@ -725,6 +740,7 @@ public class Item
 		private List<String> collections;
 		private String websiteTitle;
 		private String websiteType;
+		private String bookTitle;
 		private String seriesNumber;
 		private String numberOfVolumes;
 		private String edition;
@@ -775,6 +791,7 @@ public class Item
 			this.collections         = new ArrayList<String>();
 			this.websiteTitle        = null;
 			this.websiteType         = null;
+			this.bookTitle           = null;
 			this.seriesNumber        = null;
 			this.numberOfVolumes     = null;
 			this.edition             = null;
@@ -1021,6 +1038,12 @@ public class Item
 		public ItemBuilder setWebsiteType(String websiteType)
 		{
 			this.websiteType = websiteType;
+			return this;
+		}
+
+		public ItemBuilder setBookTitle(String bookTitle)
+		{
+			this.bookTitle = bookTitle;
 			return this;
 		}
 

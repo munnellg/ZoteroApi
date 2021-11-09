@@ -172,6 +172,8 @@ public class ZoteroRequest
 
 		final URL url = new URL(this.apiRoot + prefix + this.path + queryString);
 
+		System.out.println(url);
+
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		
 		con.setRequestMethod(this.requestMethod);
